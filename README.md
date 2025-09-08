@@ -1,143 +1,115 @@
-## Shario
+# 🌸 Shario
 
-Pinterest-like image sharing app built with a React + Vite frontend and a Sanity.io backend.
+A Pinterest-style visual discovery and sharing platform built with React + Vite on the frontend and Sanity.io as the headless CMS.
 
-### Features
+Shario lets users create, save, and explore themed pins with a clean UI, smooth Google login, and responsive masonry layout.
 
-- User authentication with Google OAuth
-- Create, view, search, and categorize pins
-- Save pins and view saved/created pins in a profile
-- Pin details with related pins and comments
-- Responsive Masonry grid layout
+## ✨ Features
 
-### Tech Stack
+- 🔑 Google OAuth authentication – one-click login & session persistence
+- 📌 Pins management – create, view, categorize, and search pins
+- ❤️ Save pins – keep your favorite pins in a personal collection
+- 👤 User profiles – see created and saved pins, with logout option
+- 💬 Pin details – view related pins, add comments, engage with community
+- 🧱 Responsive masonry grid – dynamic layout that adapts to any screen
 
-- Frontend: React 19, Vite, React Router, TailwindCSS, React Icons, react-masonry-css
-- Auth: @react-oauth/google, jwt-decode
-- Backend (CMS): Sanity v4 (schemas for users, pins, comments, saves)
+## 🛠️ Tech Stack
 
-### Monorepo Structure
+- **Frontend**: React 19, Vite, React Router, TailwindCSS, React Icons, react-masonry-css
+- **Auth**: @react-oauth/google, jwt-decode
+- **Backend (CMS)**: Sanity v4 with structured schemas for users, pins, saves, and comments
+
+## 📂 Monorepo Structure
 
 ```
-backend/   # Sanity Studio (content schemas and studio config)
-frontend/  # React app (Vite)
+shario/
+├── backend/    # Sanity Studio (content schemas + studio config)
+└── frontend/   # React app (Vite + Tailwind)
 ```
+
+## ⚡ Quick Start
 
 ### Prerequisites
 
 - Node.js 18+
-- Sanity account and project (Project ID + dataset)
-- Google OAuth Client ID (Web)
+- Sanity account + project (Project ID + dataset)
+- Google OAuth Client ID (type: Web)
 
-### Environment Variables
-
-Create a `.env` file inside `frontend/` with:
+### Environment Variables (`frontend/.env`)
 
 ```
 VITE_GOOGLE_API_TOKEN=<your_google_oauth_client_id>
 VITE_SANITY_PROJECT_ID=<your_sanity_project_id>
-VITE_SANITY_TOKEN=<optional_sanity_api_token_if_needed>
+VITE_SANITY_TOKEN=<optional_if_dataset_private>
 ```
 
-Notes:
+💡 `VITE_SANITY_TOKEN` is only required if your dataset is private or write-restricted.
 
-- `VITE_SANITY_TOKEN` is only required for actions that need authenticated writes from the browser (the current app uses anonymous writes via Sanity’s client depending on dataset rules; add a token if your dataset is private or you restrict mutations).
-- Dataset is set to `production` by default.
+---
+
+## 🚀 Run Locally
 
 ### Backend (Sanity Studio)
 
-Inside `backend/`:
-
-1. Install deps
-
-```
+```bash
+cd backend
 npm install
+npm run dev   # starts Sanity Studio at http://localhost:3333
 ```
 
-2. Configure `sanity.config.js` with your `projectId` and `dataset` (already present). If you created a new Sanity project, update these values.
-3. Run the studio locally
+Optional:
 
-```
-npm run dev
-```
-
-4. (Optional) Deploy studio and GraphQL
-
-```
-npm run deploy
-npm run deploy-graphql
+```bash
+npm run deploy         # deploy Studio to Sanity Hosting
+npm run deploy-graphql # publish Sanity GraphQL API
 ```
 
-Schemas included (`backend/schemaTypes/`):
+### Frontend (React + Vite)
 
-- `user` (userName, image, googleId)
-- `pin` (title, about, destination, category, image, userId, postedBy, save[], comments[])
-- `comment` (postedBy, comment)
-- `save` (postedBy, userId)
-- `postedBy` (reference to user)
-
-### Frontend (Vite React)
-
-Inside `frontend/`:
-
-1. Install deps
-
-```
+```bash
+cd frontend
 npm install
+npm run dev     # starts dev server at http://localhost:5173
+npm run build   # production build
+npm run preview # preview production build
 ```
 
-2. Start dev server
+---
 
-```
-npm run dev
-```
+## 🏗️ Sanity Schemas
 
-3. Build / Preview
+Located in `backend/schemaTypes/`:
 
-```
-npm run build
-npm run preview
-```
+- **user** → userName, image, googleId
+- **pin** → title, about, destination, category, image, postedBy, saves[], comments[]
+- **comment** → postedBy, comment
+- **save** → postedBy, userId
+- **postedBy** → reference to user
 
-Key files:
+---
 
-- `src/client.jsx`: Sanity client and image URL builder
-- `src/utils/data.jsx`: GROQ queries and categories
-- `src/container/Home.jsx`: App shell, sidebar, router mount
-- `src/container/Pins.jsx`: Routes for feed, search, create, detail
-- `src/components/Login.jsx`: Google OAuth login and user bootstrap
-- `src/components/Feed.jsx`: Category feed or general feed
-- `src/components/Pin.jsx`: Pin card with save/download/delete
-- `src/components/PinDetail.jsx`: Details, comments, related pins
-- `src/components/UserProfile.jsx`: Created vs saved pins, logout
+## 🔧 Project Notes
 
-### Running End-to-End Locally
+- Make sure Sanity CORS origins include your dev and production frontend URLs.
+- Add your frontend URLs to Google OAuth Authorized JavaScript Origins.
+- User data is persisted in `localStorage` under `user`. Clearing it = logout.
+- Images are fetched from Sanity asset pipeline with dynamic transformations.
 
-1. Start Sanity Studio: `cd backend && npm run dev`
-2. Start frontend: `cd ../frontend && npm run dev`
-3. Ensure `.env` values exist in `frontend/` and that Sanity projectId/dataset match `backend/sanity.config.js`.
+---
 
-### Notes & Tips
+## 🌐 Deployment
 
-- If you restrict dataset access in Sanity, set up a CORS origin for your dev URL and provide `VITE_SANITY_TOKEN` for mutations.
-- Update Google OAuth authorized JavaScript origins to match your dev URL (e.g., `http://localhost:5173`).
-- The app expects user info in `localStorage` under `user` post-login; clearing localStorage will log you out.
+- **Frontend**: deploy easily with Vercel, Netlify, or Render
+- **Backend**: deploy Sanity Studio with `npm run deploy`
 
-### Scripts Reference
+---
 
-Backend (from `backend/`):
+## 📜 License
 
-- `npm run dev` – run Sanity Studio locally
-- `npm run build` – build studio
-- `npm run deploy` – deploy studio to Sanity hosting
-- `npm run deploy-graphql` – deploy GraphQL API
+This project is currently **UNLICENSED** (per backend package.json).  
+Update or add a license file before public release.
 
-Frontend (from `frontend/`):
+---
 
-- `npm run dev` – start Vite dev server
-- `npm run build` – build for production
-- `npm run preview` – preview production build
-
-### License
-
-UNLICENSED (per backend package.json). Update as needed.
+✨ Shario is designed to be a fun, minimal, and extensible playground for image-driven social apps.  
+Customize it, extend schemas, and make it yours!
