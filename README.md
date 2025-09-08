@@ -2,6 +2,9 @@
 
 A Pinterest-style visual discovery and sharing platform built with React + Vite on the frontend and Sanity.io as the headless CMS.
 
+👉 **[Live Demo on Netlify](https://shario.netlify.app/)**  
+👉 **[GitHub Repository](https://github.com/Rushyanjankarthik25/Shario)**
+
 Shario lets users create, save, and explore themed pins with a clean UI, smooth Google login, and responsive masonry layout.
 
 ## ✨ Features
