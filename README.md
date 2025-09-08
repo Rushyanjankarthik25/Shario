@@ -99,7 +99,7 @@ Located in `backend/schemaTypes/`:
 
 ## 🌐 Deployment
 
-- **Frontend**: deploy easily with Vercel, Netlify, or Render
+- **Frontend**: deployed with Netlify
 - **Backend**: deploy Sanity Studio with `npm run deploy`
 
 ---
